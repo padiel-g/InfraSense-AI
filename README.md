@@ -1,7 +1,4 @@
 # InfraSense-AI
-AI-powered municipal infrastructure monitoring for water anomalies, leak detection, GIS alerts, and illegal dumping detection.
-Full-stack municipal monitoring platform for detecting water infrastructure anomalies, leak and overflow risks, water quality issues, and illegal dumping events.
-## GitHub Description
 AI-powered municipal infrastructure monitoring system with FastAPI, Next.js, anomaly detection, leak detection, water quality simulation, GIS dashboards, and YOLOv8 illegal dumping detection.
 ## Features
 - Sensor anomaly detection for municipal infrastructure readings
