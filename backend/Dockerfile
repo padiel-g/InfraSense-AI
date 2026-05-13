@@ -3,19 +3,16 @@ FROM python:3.10-slim
 WORKDIR /app
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libgdal-dev \
-    libgeos-dev \
-    libproj-dev \
     gcc \
     g++ \
     && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements.prod.txt .
+RUN pip install --no-cache-dir -r requirements.prod.txt
 
 COPY . .
 
-RUN mkdir -p uploads/dumping
+RUN mkdir -p uploads/dumping data
 
 EXPOSE 8000
 
