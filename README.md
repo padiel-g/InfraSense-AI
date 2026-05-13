@@ -11,7 +11,7 @@ AI-powered municipal infrastructure monitoring system with FastAPI, Next.js, ano
 - Next.js dashboard frontend with React Query, Tailwind CSS, Recharts, and Leaflet/Mapbox
 ## Tech Stack
 - **Frontend:** Next.js 14, React, TypeScript, Tailwind CSS, React Query, Recharts, Leaflet, Mapbox
-- **Backend:** FastAPI, SQLAlchemy, Pydantic, PostgreSQL, Redis
+- **Backend:** FastAPI, PostgreSQL, Redis
 - **Machine Learning:** Scikit-learn, XGBoost, TensorFlow, PyTorch, Ultralytics YOLOv8
 - **Tooling:** Docker Compose, Uvicorn, Alembic
 ## Project Structure
