@@ -1,0 +1,6 @@
+path: C:/Users/gpadi/Desktop/anomaly-detection/backend/data
+train: train/images
+val: valid/images
+test: test/images
+nc: 2
+names: ['Clean road', 'garbage']

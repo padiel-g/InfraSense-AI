@@ -1,0 +1,146 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Surface tokens — page is a soft gray, cards are pure white */
+    --background: 210 20% 98%;          /* #f8f9fa */
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.75rem;                  /* slightly rounder default */
+
+    /* Elevation tokens */
+    --shadow-card: 0 1px 2px 0 rgb(0 0 0 / 0.04), 0 1px 3px 0 rgb(0 0 0 / 0.06);
+    --shadow-card-hover: 0 4px 6px -1px rgb(0 0 0 / 0.06), 0 2px 4px -2px rgb(0 0 0 / 0.06);
+  }
+
+  .dark {
+    --background: 222 47% 7%;            /* deeper, less blue */
+    --foreground: 210 40% 98%;
+    --card: 222 40% 11%;                 /* cards lift off page */
+    --card-foreground: 210 40% 98%;
+    --popover: 222 40% 11%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 25% 16%;
+    --muted-foreground: 215 20.2% 70%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 40%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217 25% 20%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+
+    --shadow-card: 0 1px 2px 0 rgb(0 0 0 / 0.4), 0 1px 3px 0 rgb(0 0 0 / 0.3);
+    --shadow-card-hover: 0 4px 8px -2px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  /* Smooth interactive transitions site-wide */
+  button, a, [role="button"] {
+    @apply transition-colors duration-150 ease-out;
+  }
+}
+
+@layer components {
+  /* Reusable card-shadow helpers — driven by CSS vars so dark mode flips them */
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+  .shadow-card-hover {
+    box-shadow: var(--shadow-card-hover);
+  }
+}
+
+@layer utilities {
+  /* Skeleton shimmer — used for loading placeholders */
+  .skeleton-shimmer {
+    position: relative;
+    overflow: hidden;
+    background-color: hsl(var(--muted));
+  }
+  .skeleton-shimmer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background-image: linear-gradient(
+      90deg,
+      transparent,
+      hsl(0 0% 100% / 0.45),
+      transparent
+    );
+    animation: shimmer 1.6s infinite;
+  }
+  .dark .skeleton-shimmer::after {
+    background-image: linear-gradient(
+      90deg,
+      transparent,
+      hsl(0 0% 100% / 0.06),
+      transparent
+    );
+  }
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  /* Soft pulse used by empty-state illustrations */
+  @keyframes soft-pulse {
+    0%, 100% { opacity: 0.55; transform: scale(1); }
+    50%      { opacity: 1;    transform: scale(1.04); }
+  }
+  .animate-soft-pulse {
+    animation: soft-pulse 2.6s ease-in-out infinite;
+  }
+
+  /* Slow ping for the empty-state ring */
+  @keyframes slow-ping {
+    0%   { transform: scale(0.9); opacity: 0.6; }
+    80%, 100% { transform: scale(1.6); opacity: 0; }
+  }
+  .animate-slow-ping {
+    animation: slow-ping 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  /* Frosted glass — used by map legend / overlays */
+  .glass {
+    background-color: hsl(0 0% 100% / 0.72);
+    -webkit-backdrop-filter: saturate(160%) blur(10px);
+    backdrop-filter: saturate(160%) blur(10px);
+  }
+  .dark .glass {
+    background-color: hsl(222 40% 11% / 0.72);
+  }
+}

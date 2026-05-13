@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_DB=anomaly_detection
+      - POSTGRES_USER=anomaly_user
+      - POSTGRES_PASSWORD=anomaly_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U anomaly_user -d anomaly_detection"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://anomaly_user:anomaly_password@postgres:5432/anomaly_detection
+      - DATABASE_URL_SYNC=postgresql+psycopg://anomaly_user:anomaly_password@postgres:5432/anomaly_detection
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - .:/app
+      - upload_data:/app/uploads
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  redis_data:
+  upload_data:
+  postgres_data:
