@@ -66,7 +66,8 @@ class UserOut(BaseModel):
 # Cookie helpers
 # ---------------------------------------------------------------------------
 
-_SECURE = False   # set True when serving over HTTPS in production
+_SECURE = settings.COOKIE_SECURE
+_SAMESITE = settings.COOKIE_SAMESITE
 
 
 def _set_access_cookie(response: Response, token: str) -> None:
@@ -75,7 +76,7 @@ def _set_access_cookie(response: Response, token: str) -> None:
         value=token,
         httponly=True,
         secure=_SECURE,
-        samesite="lax",
+        samesite=_SAMESITE,
         max_age=settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
         path="/",
     )
@@ -97,7 +98,7 @@ def _set_refresh_cookie(response: Response, token: str, remember_me: bool) -> No
         value=token,
         httponly=True,
         secure=_SECURE,
-        samesite="lax",
+        samesite=_SAMESITE,
         max_age=days * 24 * 3600,
         path="/",
     )

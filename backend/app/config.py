@@ -1,3 +1,4 @@
+from pydantic import field_validator
 from pydantic_settings import BaseSettings
 from functools import lru_cache
 
@@ -20,6 +21,9 @@ class Settings(BaseSettings):
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
     REMEMBER_ME_REFRESH_EXPIRE_DAYS: int = 30
     FRONTEND_URL: str = "http://localhost:3000"
+    CORS_ORIGINS: list[str] = []
+    COOKIE_SECURE: bool = False
+    COOKIE_SAMESITE: str = "lax"
 
     # ML Model Paths
     XGBOOST_MODEL_PATH: str = "app/ml/weights/xgboost_risk.json"
@@ -44,6 +48,15 @@ class Settings(BaseSettings):
     # App
     APP_NAME: str = "Municipal Infrastructure Monitor"
     DEBUG: bool = True
+
+    @field_validator("CORS_ORIGINS", mode="before")
+    @classmethod
+    def parse_cors_origins(cls, value):
+        if value is None or value == "":
+            return []
+        if isinstance(value, str):
+            return [origin.strip() for origin in value.split(",") if origin.strip()]
+        return value
 
     class Config:
         env_file = ".env"
